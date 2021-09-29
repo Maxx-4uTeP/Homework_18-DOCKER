@@ -42,11 +42,13 @@ Vagrant.configure("2") do |config|
           mkdir -p ~root/.ssh
           cp ~vagrant/.ssh/auth* ~root/.ssh
           sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-          systemctl restart sshd
-          cat /etc/ssh/sshd_config | grep PasswordAuthentication
+          systemctl restart sshd          
       SHELL
 
+      box.vm.provision "file", source: "files/Dockerfile", destination: "$HOME/Dockerfile"
+      box.vm.provision "file", source: "files/Dockerfile2", destination: "$HOME/Dockerfile2"
       box.vm.provision "shell", path: "files/server.sh"
+
 
       #=========================================
       #Это не работает в винде...
