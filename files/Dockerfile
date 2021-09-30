@@ -16,7 +16,6 @@ RUN mkdir -p /tmp/src && \
         --with-http_ssl_module && \
     make && \
     make install && \
-    rm -rf /tmp/src
-
-RUN sed -i -E "s/Welcome to nginx/Welcome to nginx in DOCKER/g" /usr/local/nginx/html/index.html
+    rm -rf /tmp/src && \
+    sed -i -E "s/Welcome to nginx/Welcome to nginx in DOCKER/g" /usr/local/nginx/html/index.html
 CMD ["nginx", "-g", "daemon off;"]
