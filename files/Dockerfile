@@ -1,12 +1,22 @@
 FROM alpine:3.12
-ARG tf_ver=0.12.28
-ARG tflint_ver=0.16.2
-RUN apk update && apk upgrade
-RUN wget https://releases.hashicorp.com/terraform/${tf_ver}/terraform_${tf_ver}_linux_amd64.zip \
-    && unzip terraform_${tf_ver}_linux_amd64.zip && rm terraform_${tf_ver}_linux_amd64.zip \
-    && mv terraform /usr/local/bin/
-RUN wget https://github.com/terraform-linters/tflint/releases/download/v${tflint_ver}/tflint_linux_amd64.zip \
-    && unzip tflint_linux_amd64.zip && rm tflint_linux_amd64.zip \
-    && mv tflint /usr/local/bin/
-RUN apk add --no-cache curl
-CMD ["/bin/sh"]
+ARG nginx_ver=1.20.1
+RUN apk --update --no-cache add build-base  openssl-dev    pcre-dev    zlib-dev
+
+RUN mkdir -p /tmp/src && \
+    cd /tmp/src && \
+    wget http://nginx.org/download/nginx-${nginx_ver}.tar.gz && \
+    tar -zxf nginx-${nginx_ver}.tar.gz && \
+    cd nginx-${nginx_ver} && \
+    ./configure --sbin-path=/usr/bin/nginx \
+        --conf-path=/etc/nginx/nginx.conf \
+        --pid-path=/var/run/nginx.pid \
+        --error-log-path=/var/log/nginx/error.log \
+        --http-log-path=/var/log/nginx/access.log \
+        --with-pcre \
+        --with-http_ssl_module && \
+    make && \
+    make install && \
+    rm -rf /tmp/src
+
+RUN sed -i -E "s/Welcome to nginx/Welcome to nginx in DOCKER/g" /usr/local/nginx/html/index.html
+CMD ["nginx", "-g", "daemon off;"]

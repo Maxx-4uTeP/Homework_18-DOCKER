@@ -4,3 +4,4 @@ sudo yum install -y nano    yum-utils   docker-ce   docker-ce-cli   containerd.i
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker vagrant
+docker build .

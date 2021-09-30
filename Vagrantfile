@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
       SHELL
 
       box.vm.provision "file", source: "files/Dockerfile", destination: "$HOME/Dockerfile"
-      box.vm.provision "file", source: "files/Dockerfile2", destination: "$HOME/Dockerfile2"
+      #box.vm.provision "file", source: "files/Dockerfile2", destination: "$HOME/Dockerfile2"
       box.vm.provision "shell", path: "files/server.sh"
 
 
