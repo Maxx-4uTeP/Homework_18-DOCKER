@@ -1,4 +1,5 @@
 # Домашка 18 "Docker"
+## Welcome to nginx in DOCKER!
 
 Vagrant поднимает машину с докером и сразу готовит образ докера из Alpine и исходников nginx. Образ так же загружен в dockerHub: https://hub.docker.com/r/4utep/nginx
 *Все стенды делаю с винды, поэтому делаю через доп машину линукс.
